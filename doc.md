@@ -52,3 +52,24 @@ Uma rede de lojas de eletrônicos em um único site, permitindo que cada lojista
 - Notificações por e-mail (compra, envio, etc.)
 
 ### 2.2 Arquitetura do Código
+```
+eletroshop_network/
+├── main.py # Inicialização da aplicação FastAPI
+├── api.py # Rotas da API
+├── models.py # Modelos de dados (lojas, produtos, pedidos, usuários)
+├── database.py # Conexão e sessão com o banco de dados
+├── schemas/ # Schemas Pydantic para validações
+├── auth/ # JWT, login com redes sociais, permissão por papel
+├── admin/ # Painel de controle do lojista
+├── static/ # Armazenamento de arquivos
+├── templates/ # Componentes do design (HTML)
+├── requirements.txt # Requisitos para instalação
+└── docs.md # Documentação
+```
+
+## 3. Etapas de Entrega (Cronograma Detalhado)
+- **Etapa 1:** 
+- **Etapa 2:** 
+- **Etapa 3:** 
+- **Etapa 4:** 
+- **Etapa 5:** 
