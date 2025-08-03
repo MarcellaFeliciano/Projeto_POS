@@ -6,7 +6,6 @@ class Usuario(BaseModel):
     username: str
     password: str
     email: str
-    data_criacao: date
 
 class Produto(BaseModel):
     id: int
@@ -28,6 +27,7 @@ class Pedido(BaseModel):
     forma_pagamento: str
 
 class Avaliacao(BaseModel):
+    id:int
     usuario: Usuario
     produto: Produto
     nota: int  
@@ -40,7 +40,5 @@ class Loja(BaseModel):
     descricao: str
     logo: str
     produtos: List[Produto]
-    usuarios: List[Usuario]
     pedidos: List[Pedido]
     avaliacoes: List[Avaliacao]
-
