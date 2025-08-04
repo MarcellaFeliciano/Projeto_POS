@@ -98,7 +98,7 @@ def login_usuarios(email:str,password:str):
                 user_logado.email = user.email
 
     if user_logado.username == '':
-        return 'erro ao logar'
+        raise HTTPException(404, "erro no logout")
     else:
         return 'login feito'
     
@@ -146,7 +146,7 @@ def buscar_produto(nome_loja:str,nome: str):
 
 # cadastrar produto
 @app.post("/produtos", response_model=Produto)
-def cadastrar_produto(nome_loja:str,nome: str,descricao: str,preco: float,quantidade_em_estoque: int,categoria: str,imagens: List[str]):
+def cadastrar_produto(nome_loja:str,nome: str,descricao: str,preco: float,quantidade_em_estoque: int,categoria: str,imagens: str):
     for loja in lojas:
         if loja.nome == nome_loja:
 
@@ -191,7 +191,7 @@ def listar_pedidos(nome_loja:str):
     raise HTTPException(404,"Não localizado.")
 
 # buscar pedido
-@app.get("/pedidos/{nome}", response_model=Pedido)
+@app.get("/pedidos/{id_pedido}", response_model=Pedido)
 def buscar_pedido(nome_loja:str,id_pedido: int):
     for loja in lojas:
         if loja.nome == nome_loja:
@@ -223,7 +223,7 @@ def cadastrar_pedido(nome_loja:str, lista_id_produtos: List[int], status: str, e
             return novo_pedido
     
 # apagar pedido
-@app.delete("/pedido/{nome}", response_model=Pedido)
+@app.delete("/pedido/{id_pedido}", response_model=Pedido)
 def excluir_pedido(loja_nome:str,id_pedido: int):
     for loja in lojas:
         if loja.nome == loja_nome:
