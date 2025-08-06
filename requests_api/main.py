@@ -3,10 +3,10 @@ import time
 from colorama import Fore # pip install colorama
 
 def cadastrar(name, email, senha):
-    user = {"username":name, "password":senha, "email":email}
-    cadastrar=requests.post(f'http://127.0.0.1:8000/usuarios',json=user)
+    user = {"username": name, "password": senha, "email": email}
+    response = requests.post("http://127.0.0.1:8000/usuarios", json=user)
 
-    if cadastrar.status_code == 200:
+    if response.status_code == 200:
         msg = Fore.GREEN +f"({email}) cadastrado com sucesso!"+Fore.WHITE
         return msg
     else:
@@ -25,7 +25,7 @@ def apagar_cadastro(username):
     
 def logar(email, senha):
     user = {"email":email, "password":senha}
-    login=requests.post(f'http://127.0.0.1:8000/login',json=user)
+    login=requests.post(f'http://127.0.0.1:8000/login',params=user)
 
     if login.status_code == 200:
         msg = Fore.GREEN +f"{email} logado com sucesso!"+Fore.WHITE
@@ -46,11 +46,14 @@ def logout():
 
 def add_loja(nome, descricao, logo):
     loja = {"nome":nome, "descricao":descricao, "logo":logo}
-    add=requests.post(f'http://127.0.0.1:8000/lojas',json=loja)
+    add=requests.post(f'http://127.0.0.1:8000/lojas',params=loja)
 
     if add.status_code == 200:
-        msg = Fore.GREEN +f"{nome} adicionado com sucesso a lista de lojas!"+Fore.WHITE
-        return msg
+        if add.text == 'Deslogado':
+            return "É necessário fazer o login!"
+        else:
+            msg = Fore.GREEN +f"{nome} adicionado com sucesso a lista de lojas!"+Fore.WHITE
+            return msg
     else:
         msg = Fore.RED +f"Não foi possível adicionar {nome} a lista de lojas, tente novamente!"+Fore.WHITE
         return msg
@@ -290,8 +293,8 @@ if __name__ == "__main__":
             print("-"*30)
             print("     Fazer Cadastro  ")
             name = str(input('- Username: '))
-            email = str(input(' - Email: '))
-            senha = int (input(' - Senha: '))
+            email = str(input('- Email: '))
+            senha = str(input('- Senha: '))
         
             cadastro = cadastrar(name=name, email=email, senha=senha)
             print("-"*30)

@@ -32,18 +32,22 @@ def listar_lojas(nome:str):
     raise HTTPException(404, "Não encontrado")
 
 #cadastrar loja
-@app.post("/lojas")
+@app.post("/lojas", response_model=str)
 def cadastrar_lojas(nome:str,descricao:str,logo:str):
-    loja = Loja(
-        id=len(lojas) + 1,
-        nome=nome,
-        descricao=descricao,
-        logo=logo,
-        produtos=[],
-        pedidos=[],
-        avaliacoes=[]
-    )
-    lojas.append(loja)
+    if user_logado.username == '':
+        return "Deslogado"
+    else:
+        loja = Loja(
+            id=len(lojas) + 1,
+            nome=nome,
+            descricao=descricao,
+            logo=logo,
+            produtos=[],
+            pedidos=[],
+            avaliacoes=[]
+        )
+        lojas.append(loja)
+        return 'Loja cadastrada'
 
 #excluir loja
 @app.delete("/lojas/{nome}", response_model=Loja)
@@ -75,17 +79,16 @@ def listar_usuario(username:str):
     raise HTTPException(404, "Não encontrado")
 
 #cadastrar user
-@app.post("/usuarios")
-def cadastrar_usuarios(username:str,password:str,email:str):
-    user = Usuario(
-        username=username,
-        password=password,
-        email=email
-    )
+
+@app.post("/usuarios", response_model=Usuario)
+def cadastrar_usuarios(user: Usuario):
     usuarios.append(user)
-    user_logado.username = username
-    user_logado.password = password
-    user_logado.email = email
+
+    usuarios.append(user)
+    user_logado.username = user.username
+    user_logado.password = user.password
+    user_logado.email = user.email
+    return user
 
 #login
 @app.post("/login", response_model=str)
